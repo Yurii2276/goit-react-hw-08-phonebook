@@ -1,18 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  addContact,
-  getContacts,
-  removeContact,
-} from 'components/Api.js/contacts';
 
 import { createSelector } from 'reselect';
 import { selectContacts, selectContactsFilter } from './contacts.selectors';
+import { requestAddContact, requestAllContacts, requestDeleteContact } from './services/phonebookApi';
 
 export const fetchContacts = createAsyncThunk(
   'contacns/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const contacts = await getContacts();
+      const contacts = await requestAllContacts();
 
       return contacts;
     } catch (error) {
@@ -25,7 +21,7 @@ export const addContacts = createAsyncThunk(
   'contacns/addContact',
   async (contact, thunkAPI) => {
     try {
-      const contacts = await addContact(contact);
+      const contacts = await requestAddContact(contact);
 
       return contacts;
     } catch (error) {
@@ -38,7 +34,7 @@ export const deliteContacts = createAsyncThunk(
   'contacns/deliteContact',
   async (contactId, thunkAPI) => {
     try {
-      const contacts = await removeContact(contactId);
+      const contacts = await requestDeleteContact(contactId);
 
       return contacts;
     } catch (error) {

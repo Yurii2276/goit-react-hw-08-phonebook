@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import css from './ContactForm.module.css';
-
 import { addContacts } from '../../../redux/contactSlice';
 import { selectContacts } from 'redux/contacts.selectors';
 
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  VStack,
+} from '@chakra-ui/react';
+
 export default function ContactForm() {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
 
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
@@ -18,8 +25,8 @@ export default function ContactForm() {
     switch (name) {
       case 'name':
         return setName(value);
-      case 'phone':
-        return setPhone(value);
+      case 'number':
+        return setNumber(value);
       default:
     }
   };
@@ -27,55 +34,54 @@ export default function ContactForm() {
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (name.trim() === '' || phone.trim() === '') {
+    if (name.trim() === '' || number.trim() === '') {
       alert('Please enter name and telephone number!');
       return;
     }
     const newContact = {
       createdAt: new Date().toISOString(),
       name: name,
-      phone: phone,
+      number: number,
     };
 
     if (contacts.some(contact => contact.name === name)) {
       alert(`${name} is already in contacts!`);
-     
+
       return;
     }
     dispatch(addContacts(newContact));
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
-    <form className={css.contactContainer} onSubmit={handleSubmit}>
-      <label htmlFor="" className={css.InputContainer}>
-        <span className={css.inputtitle}>Name</span>
-        <input
-          onChange={handleInputChange}
-          name="name"
-          value={name}
-          className={css.inputFormStyle}
-          type="text"
-          required
-        />
-      </label>
+    <Box width={{ base: '100%', md: '50%' }} ml={0} mt={10}>
+      <VStack as="form" onSubmit={handleSubmit} spacing={4}>
+        <FormControl id="name" isRequired>
+          <FormLabel>Name</FormLabel>
+          <Input
+            value={name}
+            onChange={handleInputChange}
+            name="name"
+            type="text"
+          />
+        </FormControl>
 
-      <label htmlFor="" className={css.InputContainer}>
-        <span className={css.inputtitle}>Number</span>
-        <input
-          onChange={handleInputChange}
-          name="phone"
-          value={phone}
-          className={css.inputFormStyle}
-          type="tel"
-          required
-        />
-      </label>
+        <FormControl id="number" isRequired>
+          <FormLabel>Number</FormLabel>
+          <Input
+            value={number}
+            onChange={handleInputChange}
+            name="number"
+            type="text"
+          />
+        </FormControl>
 
-      <button className={css.btnAddContact} type="submit">
-        Add contact
-      </button>
-    </form>
+        <Button colorScheme="blue" type="submit">
+          Add contact
+        </Button>
+      </VStack>
+    </Box>
+
   );
 }

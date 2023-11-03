@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+ import React, { useEffect } from 'react';
 
 import css from './Phonebook.module.css';
 
@@ -28,11 +28,8 @@ export default function Phonebook() {
       {error && <ErrorMessage message={error}/> }
  
       <div className={css.container}>
-        <h2 className={css.title}>Phonebook</h2>
 
         <ContactForm />
-
-        <h2 className={css.title}>Contacts</h2>
 
         <Filter />
 
