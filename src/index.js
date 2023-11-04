@@ -9,8 +9,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { ChakraProvider } from '@chakra-ui/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+  
     <React.StrictMode>
+      <BrowserRouter basename="/goit-react-hw-08-phonebook">
       <ChakraProvider>
         <Provider store={store}>
           <PersistGate persistor={persistor}>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           </PersistGate>
         </Provider>
       </ChakraProvider>
+    </BrowserRouter>  
     </React.StrictMode>
-  </BrowserRouter>
+  
 );
